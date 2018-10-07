@@ -1,18 +1,16 @@
+//
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
 using namespace std;
 
 void menu();
-//int tamanoArreglo(int numero);
-//int * numeroAArreglo(int n, int t);
 void programaConvierte(int o, int d, string x);
 string convertirBase(int o, string x);
 string convertirDecimal(int d,string x);
 int stringToInt(char x);
 char intToString(int x);
-//int digitosDecimal(int x);
-//void imprimirArreglo(int arreglo[],int tamano);
+
 
 int main(int argc, char const *argv[]) {
   menu();
@@ -30,41 +28,10 @@ void menu(){
     cin>>destino;
     cout<<"Dame numero: ";
     cin>>numero;
-    /*int *arreglo;
-    tamano=tamanoArreglo(numero);
-    arreglo=numeroAArregslo(numero,tamano); */
     programaConvierte(origen,destino,numero);
     veces--;
   }
 }
-
-/*
-int leerArreglo(){
-  return arreglo;
-}
-int tamanoArreglo(int numero){
-  int tamano=0;
-  while(numero>0){
-    numero/=10;
-    tamano++;
-  }
-  return tamano;
-}
-int * numeroAArreglo(int n, int t){
-  int numero = n;
-  int tamano = t;
-  int *arreglo=new int[tamano];
-  for (int i = tamano-1; i >= 0; i--) {
-    arreglo[i] = numero % 10;
-    numero /= 10;
-  }
-  return arreglo;
-  imprimirArreglo(arreglo,tamano);
-}
-int arregloANumero(int arreglo){
-  return numero;
-}
-*/
 
 void programaConvierte(int o, int d, string x){
   string a2;
@@ -73,7 +40,8 @@ void programaConvierte(int o, int d, string x){
   }
   if(o!=10&&d!=10){
     a2=convertirDecimal(d,a2);
-  }else{
+  }
+  if(o==10){
     a2=convertirDecimal(d,x);
   }
   cout<<a2<<endl;
@@ -82,15 +50,38 @@ void programaConvierte(int o, int d, string x){
 string convertirBase(int o, string x){
   int i,j;
   int numero=0;
+  int result;
   int n = x.length();
-  int a1[n];
+  int a[n];
   string decimal;
+  for (i = n-1; i >= 0; i--) {
+    cout<<i<<"\t";
+  }
+  cout<<endl;
   for (i = 0; i < n; i++) {
-    a1[i]=stringToInt(x[i]);
+    a[i]=stringToInt(x[i]);
+    cout<<x[i]<<"\t";
+  }
+  cout<<endl;
+  for (i = 0, j=n-1; i < n; i++,j--) {
+    cout<<x[j]<<" x "<<o<<"^"<<i<<" = ";
+    if(a[i]>10){
+      cout<<a[j]<<" x "<<o<<"^"<<i<<" = ";
+    }
+    cout<<a[j]<<" x "<<pow(o,i)<<" = ";
+    cout<<a[j]*pow(o,i)<<endl;
   }
   for (i = 0, j=n-1; i < n; i++,j--) {
-    numero+=(a1[j]*pow(o,i));
+    result = a[j]*pow(o,i);
+    if(result!=0){
+        cout<<result;
+    }
+    numero+=result;
+    if(result!=0 && i<n-1){
+      cout<<"+";
+    }
   }
+  cout<<"=";
   decimal = to_string(numero);
   return decimal;
 }
@@ -101,17 +92,23 @@ string convertirDecimal(int d,string x){
   string base="";
   string temp;
   int r; //reminder
-  while(n>0){
+  cout<<n<<"|_"<<d<<endl;
+  for(i=1;n>0;i++){
+    for (j=0;j<i;j++) {
+      cout<<"  ";
+    }
     r=n-(n/d)*d;
     n/=d;
+    cout<<r<<" "<<n<<"|_"<<d<<endl;
     base+=intToString(r);
   }
+
   temp=base;
   n=base.length();
   for (i = 0,j=n-1;i<n; i++,j--) {
     base[i]=temp[j];
   }
-
+  cout<<"=";
   return base;
 }
 
@@ -228,18 +225,3 @@ char intToString(int x){
   }
   return n;
 }
-/*
-int digitosDecimal(int x){
-  n=0;
-  for(n=0;x>0;n++){
-    x/=10;
-  }
-  return n;
-}
-void imprimirArreglo(int arreglo[],int tamano){
-  for (int i = 0; i < tamano; i++) {
-    cout<<arreglo[i];
-  }
-  cout<<endl;
-}
-*/
